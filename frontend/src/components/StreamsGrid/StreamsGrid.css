@@ -1,0 +1,92 @@
+.streams-container {
+  flex: 1;
+  display: grid;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.stream-window {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: var(--bg-dark);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stream-window.dragging {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.stream-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--text-primary);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 1;
+}
+
+.stream-window:hover .stream-header {
+  opacity: 1;
+}
+
+.stream-drag-handle {
+  cursor: grab;
+  padding: var(--spacing-xs);
+  margin-right: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.stream-drag-handle:hover {
+  color: var(--text-primary);
+}
+
+.stream-title {
+  flex: 1;
+  font-weight: 500;
+  font-size: 0.9em;
+  margin: 0 var(--spacing-sm);
+}
+
+.remove-stream {
+  color: var(--text-secondary);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-stream:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+.stream-window iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+/* Style pour l'espace réservé pendant le glisser-déposer */
+.streams-container [data-rbd-placeholder-context-id] {
+  background-color: var(--bg-hover);
+  border-radius: var(--border-radius);
+} 

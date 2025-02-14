@@ -1,0 +1,101 @@
+.overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(var(--bg-secondary-rgb), 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-color);
+  padding: var(--spacing-md);
+  z-index: 1000;
+  animation: slideUp 0.3s var(--animation-smooth);
+}
+
+.overlay-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.overlay-text {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.overlay-login-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: all var(--transition-speed) var(--transition-timing);
+}
+
+.overlay-login-button:hover {
+  background-color: var(--primary-color-hover);
+  transform: translateY(-1px);
+}
+
+.overlay-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.overlay-dismiss-button {
+  color: var(--text-secondary);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) var(--transition-timing);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay-dismiss-button:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Animation de sortie */
+.overlay.hiding {
+  animation: slideDown 0.3s var(--animation-smooth) forwards;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* Media query pour le responsive */
+@media (max-width: 768px) {
+  .overlay-content {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--spacing-sm);
+  }
+
+  .overlay-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,324 @@
+.App {
+  text-align: center;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.controls {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  align-items: center;
+}
+
+.streams-wrapper {
+  flex: 1;
+  padding: var(--spacing-lg);
+  overflow: hidden;
+}
+
+.streams-list {
+  display: grid;
+  grid-template-columns: repeat(var(--streams-per-row), 1fr);
+  gap: var(--spacing-md);
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: var(--spacing-md);
+}
+
+.stream-wrapper {
+  width: 100%;
+}
+
+.stream-window {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: var(--bg-dark);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.stream-window.theater-mode {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  border-radius: 0;
+}
+
+.stream-window.dragging {
+  transform: scale(1.02) rotate(1deg);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  cursor: grabbing;
+}
+
+.stream-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  transition: all 0.3s var(--animation-smooth);
+}
+
+.stream-player {
+  flex: 1;
+  position: relative;
+}
+
+.stream-chat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 340px;
+  background: rgba(var(--bg-secondary-rgb), 0.95);
+  backdrop-filter: blur(10px);
+  border-left: 1px solid var(--border-color);
+  display: none;
+  z-index: 3;
+  animation: slideIn 0.3s var(--animation-smooth);
+}
+
+.stream-chat iframe {
+  background: transparent !important;
+}
+
+/* Style pour modifier le contenu de l'iframe du chat */
+.stream-chat iframe {
+  --color-background-base: transparent !important;
+  --color-background-alt: rgba(var(--bg-secondary-rgb), 0.5) !important;
+  --color-background-card: rgba(var(--bg-secondary-rgb), 0.3) !important;
+  --color-fill-user-message: rgba(var(--bg-secondary-rgb), 0.5) !important;
+}
+
+/* Ajout d'un overlay pour forcer la transparence */
+.stream-chat::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(var(--bg-secondary-rgb), 0.2);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.stream-chat iframe {
+  position: relative;
+  z-index: 2;
+}
+
+.stream-content.with-chat .stream-chat {
+  display: block;
+}
+
+.chat-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  background: rgba(var(--bg-secondary-rgb), 0.9);
+  color: var(--text-secondary);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 4;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.stream-content:hover .chat-toggle {
+  opacity: 1;
+}
+
+.chat-toggle:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.stream-content.with-chat .chat-toggle {
+  right: 340px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Ajuster le responsive */
+@media (max-width: 1200px) {
+  .stream-chat {
+    width: 300px;
+  }
+
+  .stream-content.with-chat .chat-toggle {
+    right: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stream-chat {
+    width: 100%;
+  }
+
+  .stream-content.with-chat .chat-toggle {
+    right: 10px;
+    top: 10px;
+    transform: none;
+  }
+}
+
+.stream-content iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.stream-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--text-primary);
+  opacity: 0;
+  transition: transform 0.3s var(--animation-smooth), opacity 0.3s var(--animation-smooth);
+  z-index: 1;
+  transform: translateY(-100%);
+}
+
+.stream-window:hover .stream-header {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.stream-drag-handle {
+  cursor: grab;
+  padding: var(--spacing-xs);
+  margin-right: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  color: var(--text-secondary);
+}
+
+.stream-drag-handle:hover {
+  color: var(--text-primary);
+}
+
+.stream-title {
+  flex: 1;
+  font-weight: 500;
+  font-size: 0.9em;
+  margin: 0 var(--spacing-sm);
+}
+
+.remove-stream {
+  color: var(--text-secondary);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-stream:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+.theater-mode-button {
+  color: var(--text-secondary);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius);
+  margin-right: var(--spacing-sm);
+  transition: all var(--transition-speed) var(--transition-timing);
+}
+
+.theater-mode-button:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+/* Définir la variable CSS par défaut */
+:root {
+  --streams-per-row: 2;
+}
+
+.streams-list.compact-mode {
+  gap: var(--spacing-xs);
+}
+
+.compact-mode .stream-window {
+  border-radius: var(--border-radius-sm);
+}
+
+.compact-mode .stream-header {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.9em;
+}
